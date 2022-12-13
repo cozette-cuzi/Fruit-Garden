@@ -8,7 +8,6 @@ from .models import Fruit
 from rest_framework.validators import *
 
 
-
 class FruitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fruit
@@ -26,7 +25,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ["id", "status", "created", "order_entries"]
+        fields = ["id", "status", "created", "order_entries", "rest", "collected"]
 
     # def create(self, validated_data):
     #     order_entries_data = validated_data.pop('order_entries')
@@ -42,17 +41,16 @@ class RoundEntrySerializer(serializers.ModelSerializer):
         model = RoundEntry
         fields = ["id", "fruit_id", "number"]
 
+
 class RoundSerializer(serializers.ModelSerializer):
     round_entries = RoundEntrySerializer(many=True, read_only=True)
+
     class Meta:
         model = Round
         fields = ["id", "done", "round_entries"]
-
 
 
 class OrderRoundSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderRound
         fields = ["id", "order_entry_id", "round_entry_id", "fruit_id", "number"]
-
-

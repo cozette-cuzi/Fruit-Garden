@@ -20,6 +20,19 @@ class Order(models.Model):
     entries = models.ManyToManyField(
         Fruit, through="OrderEntry", related_name="order_entries", default=None
     )
+    @property
+    def rest(self):
+        qs = self.entries.through.objects.filter(order_id=self).aggregate(rest=models.Sum('number'))
+        return qs['rest']
+    @property
+    def collected(self):
+        entries = self.entries.through.objects.filter(order_id=self)
+        sum = 0
+        for entry in entries:
+            qs = entry.order_round_entries.aggregate(collected=models.Sum('number'))
+            if(qs['collected']): sum += qs['collected']
+        # qs = self.entries.through.objects.filter(order_id=self).aggregate(collected=models.Sum('number'))
+        return sum
 
 
 class Round(models.Model):
