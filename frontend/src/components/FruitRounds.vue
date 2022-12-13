@@ -2,19 +2,19 @@
 export default {
     data() {
         return {
-            fruitCollectionsDialog: false,
+            fruitRoundsDialog: false,
 
         }
     },
     props: {
         dialog: Boolean,
-        fruitCollections: Object,
+        fruitRounds: Object,
         orderNumber: Number | null
     },
 
     watch: {
         dialog: function () {
-            this.fruitCollectionsDialog = this.dialog;
+            this.fruitRoundsDialog = this.dialog;
         }
     }
 }
@@ -22,10 +22,10 @@ export default {
 
 <template>
     <div class="text-center bg-dark">
-        <v-dialog v-model="fruitCollectionsDialog" persistent width="600px">
+        <v-dialog v-model="fruitRoundsDialog" persistent width="600px">
             <v-card >
-                <h3 class="pa-3">Order #{{ orderNumber }} Fruit Collections:</h3>
-                <v-table v-if="(this.fruitCollections )">
+                <h3 class="pa-3">Order #{{ orderNumber }} Fruit Rounds:</h3>
+                <v-table v-if="(this.fruitRounds )">
                     <thead>
                         <tr>
                             <th class="text-left text-subtitle-1 text-warning">
@@ -40,18 +40,18 @@ export default {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in fruitCollections" :key="item.id">
+                        <tr v-for="item in fruitRounds" :key="item.id">
                             <td>{{ item.round }}</td>
                             <td>{{ item.fruit }}</td>
                             <td>{{ item.number }}</td>
                         </tr>
                     </tbody>
                 </v-table>
-                <h4 v-else class="pa-4">No Collections Yet.</h4>
+                <h4 v-else class="pa-4">No Rounds Yet.</h4>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue-darken-1" variant="text"
-                        @click="fruitCollectionsDialog = false, this.$emit('closeFruitCollection')">
+                        @click="fruitRoundsDialog = false, this.$emit('closeFruitRound')">
                         Cancel
                     </v-btn>
                 </v-card-actions>

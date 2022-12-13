@@ -1,18 +1,19 @@
 <script>
-import NewOrderDialog from '../components/NewOrderDialog.vue';
-import NewCollectionDialog from '../components/NewCollectionDialog.vue';
-import FruitCollections from '../components/FruitCollections.vue';
-import FruitDetails from '../components/FruitDetails.vue';
+import NewOrderDialog from "../components/NewOrderDialog.vue";
+import NewRoundDialog from "../components/NewRoundDialog.vue";
+import FruitRounds from "../components/FruitRounds.vue";
+import FruitDetails from "../components/FruitDetails.vue";
 
 export default {
   data() {
     return {
+      fruits: null,
       fruitDetailsDialog: false,
-      fruitCollectionsDialog: false,
-      newCollection: false,
+      fruitRoundsDialog: false,
+      newRound: false,
       newOrder: false,
       selectedOrder: {
-        fruitCollections: null,
+        fruitRounds: null,
         number: null,
         fruitDetails: null
       },
@@ -64,7 +65,7 @@ export default {
               requested: 10
             }
           ],
-          fruitCollections: [
+          fruitRounds: [
             {
               round: 1,
               fruit: "apple",
@@ -79,7 +80,7 @@ export default {
               round: 3,
               fruit: "peach",
               number: 19
-            },
+            }
           ]
         },
         {
@@ -103,33 +104,44 @@ export default {
           all: 50,
           status: "new"
         }
-      ],
+      ]
     };
   },
-  components: { NewOrderDialog, NewCollectionDialog, FruitCollections, FruitDetails }
-}
+  components: {
+    NewOrderDialog,
+    NewRoundDialog,
+    FruitRounds,
+    FruitDetails
+  },
+  mounted() {
+    this.axios
+      .get(this.$api.ACTIONS.FRUITS)
+      .then(response => (this.fruits = response.data));
+  }
+};
 </script>
 
 <template>
   <main>
     <div class="d-flex flex-row mb-6 nav">
-      <v-btn class="ma-2 " color="warning" @click="newOrder = true">
-        <div class="text-white"><v-icon icon="mdi-filter-variant-plus pr-3" /> New Order</div>
+      <v-btn class="ma-2" color="warning" @click="newOrder = true">
+        <div class="text-white">
+          <v-icon icon="mdi-filter-variant-plus pr-3" />New Order
+        </div>
       </v-btn>
-      <v-btn class="ma-2" color="light" @click="newCollection = true">
-        <v-icon icon="mdi-cart-plus pr-3" />
-        Add Fuits
+      <v-btn class="ma-2" color="light" @click="newRound = true">
+        <v-icon icon="mdi-cart-plus pr-3" />Add Fuits
       </v-btn>
     </div>
 
     <v-table fixed-header>
       <thead>
         <tr>
-          <th class="text-left text-subtitle-1 text-warning"> Action </th>
-          <th class="text-left text-subtitle-1 text-warning"> Order Number </th>
-          <th class="text-left text-subtitle-1 text-warning"> Order Date </th>
-          <th class="text-left text-subtitle-1 text-warning"> Collected/All </th>
-          <th class="text-left text-subtitle-1 text-warning"> Status </th>
+          <th class="text-left text-subtitle-1 text-warning">Action</th>
+          <th class="text-left text-subtitle-1 text-warning">Order Number</th>
+          <th class="text-left text-subtitle-1 text-warning">Order Date</th>
+          <th class="text-left text-subtitle-1 text-warning">Collected/All</th>
+          <th class="text-left text-subtitle-1 text-warning">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -138,14 +150,15 @@ export default {
             <!-- <v-btn size="small" class="ma-0" @click="(selectedOrder = item, fruitDetailsDialog = true)">
               <i class="material-icons">
                 keyboard_arrow_right
-              </i> </v-btn> -->
+            </i> </v-btn>-->
             <v-btn flat icon @click="(selectedOrder = item, fruitDetailsDialog = true)">
-              <i class="material-icons small">
-                keyboard_arrow_right
-              </i>
+              <i class="material-icons small">keyboard_arrow_right</i>
             </v-btn>
           </td>
-          <td class="pointer" @click="(selectedOrder = item, fruitCollectionsDialog = true)">{{ item.number }}</td>
+          <td
+            class="pointer"
+            @click="(selectedOrder = item, fruitRoundsDialog = true)"
+          >{{ item.number }}</td>
           <td>{{ item.date }}</td>
           <td>{{ item.collected }} / {{ item.all }}</td>
           <td>{{ item.status }}</td>
@@ -153,15 +166,22 @@ export default {
       </tbody>
     </v-table>
 
-    <FruitDetails :dialog="fruitDetailsDialog" :orderNumber="selectedOrder.number"
-      :fruit-details="selectedOrder.fruitDetails" v-on:closeFruitDetails="fruitDetailsDialog = false" />
+    <FruitDetails
+      :dialog="fruitDetailsDialog"
+      :orderNumber="selectedOrder.number"
+      :fruit-details="selectedOrder.fruitDetails"
+      v-on:closeFruitDetails="fruitDetailsDialog = false"
+    />
 
-    <FruitCollections :dialog="fruitCollectionsDialog" :orderNumber="selectedOrder.number"
-      :fruit-collections="selectedOrder.fruitCollections" v-on:closeFruitCollection="fruitCollectionsDialog = false" />
+    <FruitRound
+      :dialog="fruitRoundDialog"
+      :orderNumber="selectedOrder.number"
+      :fruit-rounds="selectedOrder.fruitRounds"
+      v-on:closeFruitRound="fruitRoundsDialog = false"
+    />
 
-    <NewOrderDialog :dialog=newOrder v-on:closeNewOrder="newOrder = false" />
-    <NewCollectionDialog :dialog=newCollection v-on:closeNewCollection="newCollection = false" />
-
+    <NewOrderDialog :dialog="newOrder" :fruits="fruits" v-on:closeNewOrder="newOrder = false" />
+    <NewRoundDialog :dialog="newRound" :fruits="fruits" v-on:closeNewRound="newRound = false" />
   </main>
 </template>
 
