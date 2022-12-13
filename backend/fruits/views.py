@@ -1,15 +1,14 @@
 from django.shortcuts import render
 from .serializers import (
     OrderSerializer,
-    OrderEntrySerializer,
+    FruitSerializer,
     RoundSerializer,
-    RoundEntrySerializer,
 )
-from .models import Order, Round, RoundEntry, OrderEntry, OrderRound, Fruit
+from .models import Order, Round, Fruit
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.db import IntegrityError, transaction
+from django.db import transaction
 from django.core.exceptions import BadRequest
 from .view_helpers import *
 
@@ -48,15 +47,21 @@ class RoundList(APIView):
     def post(self, request, format=None):
         round_entries_data = request.data.pop("round_entries")
         serializer = RoundSerializer(data=request.data)
-
         if serializer.is_valid():
-            try:
+            try:  
                 with transaction.atomic():
                     saved = serializer.save()
-                    round = Order.objects.get(pk=saved.id)
+                    round = Round.objects.get(pk=saved.id)
                     generate_relationships(round_entries_data, round, 50)
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
             except BadRequest:
                 return Response(exception=BadRequest, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class FruitList(APIView):
+    def get(self, request, fromat=None):
+        fruits = Fruit.objects.all()
+        serializer = FruitSerializer(fruits, many=True)
+        return Response(serializer.data)

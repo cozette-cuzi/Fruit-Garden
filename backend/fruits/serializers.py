@@ -56,6 +56,3 @@ class OrderRoundSerializer(serializers.ModelSerializer):
         fields = ["id", "order_entry_id", "round_entry_id", "fruit_id", "number"]
 
 
-class FruitSerializer(serializers.ModelSerializer):
-    model = Fruit
-    fields = ["id", "name"]
