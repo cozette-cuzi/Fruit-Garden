@@ -17,94 +17,7 @@ export default {
         number: null,
         fruitDetails: null
       },
-      orders: [
-        {
-          number: 1,
-          date: "2021.01.01 12:30",
-          collected: 50,
-          all: 50,
-          status: "done",
-          fruitDetails: [
-            {
-              name: "apple",
-              collected: 2,
-              requested: 10
-            },
-            {
-              name: "peach",
-              collected: 2,
-              requested: 10
-            },
-            {
-              name: "pear",
-              collected: 2,
-              requested: 10
-            }
-          ]
-        },
-        {
-          number: 2,
-          date: "2021.01.01 12:30",
-          collected: 30,
-          all: 30,
-          status: "done",
-          fruitDetails: [
-            {
-              name: "apple",
-              collected: 2,
-              requested: 10
-            },
-            {
-              name: "peach",
-              collected: 2,
-              requested: 10
-            },
-            {
-              name: "pear",
-              collected: 2,
-              requested: 10
-            }
-          ],
-          fruitRounds: [
-            {
-              round: 1,
-              fruit: "apple",
-              number: 19
-            },
-            {
-              round: 1,
-              fruit: "pear",
-              number: 1
-            },
-            {
-              round: 3,
-              fruit: "peach",
-              number: 19
-            }
-          ]
-        },
-        {
-          number: 3,
-          date: "2021.01.01 12:30",
-          collected: 20,
-          all: 30,
-          status: "collecting"
-        },
-        {
-          number: 4,
-          date: "2021.01.01 12:30",
-          collected: 20,
-          all: 30,
-          status: "collecting"
-        },
-        {
-          number: 5,
-          date: "2021.01.07 10:30",
-          collected: 0,
-          all: 50,
-          status: "new"
-        }
-      ]
+      orders: []
     };
   },
   components: {
@@ -117,6 +30,14 @@ export default {
     this.axios
       .get(this.$api.ACTIONS.FRUITS)
       .then(response => (this.fruits = response.data));
+    this.getOrders();
+  },
+  methods: {
+    getOrders() {
+      this.axios
+        .get(this.$api.ACTIONS.ORDERS)
+        .then(response => (this.orders = response.data));
+    }
   }
 };
 </script>
@@ -147,10 +68,6 @@ export default {
       <tbody>
         <tr v-for="item in orders" :key="item.name">
           <td>
-            <!-- <v-btn size="small" class="ma-0" @click="(selectedOrder = item, fruitDetailsDialog = true)">
-              <i class="material-icons">
-                keyboard_arrow_right
-            </i> </v-btn>-->
             <v-btn flat icon @click="(selectedOrder = item, fruitDetailsDialog = true)">
               <i class="material-icons small">keyboard_arrow_right</i>
             </v-btn>
@@ -158,9 +75,9 @@ export default {
           <td
             class="pointer"
             @click="(selectedOrder = item, fruitRoundsDialog = true)"
-          >{{ item.number }}</td>
-          <td>{{ item.date }}</td>
-          <td>{{ item.collected }} / {{ item.all }}</td>
+          >{{ item.id }}</td>
+          <td>{{ item.created }}</td>
+          <td>{{ item.collected }} / {{ item.rest + item.collected }}</td>
           <td>{{ item.status }}</td>
         </tr>
       </tbody>
