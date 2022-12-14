@@ -49,12 +49,13 @@ def get_fruit_details(order):
     order_entries = order.order_entries.all()
     result = []
     for entry in order_entries:
+        collected = entry.order_round_entries.aggregate(collected=models.Sum("number"))[
+            "collected"
+        ]
         result.append(
             {
                 "name": entry.fruit_id.name,
-                "collected": entry.order_round_entries.aggregate(
-                    collected=models.Sum("number")
-                )["collected"],
+                "collected": collected if collected != None else 0,
                 "rest": entry.number,
             }
         )

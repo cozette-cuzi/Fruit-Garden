@@ -44,7 +44,9 @@ class OrderDetail(APIView):
         try:
             order = Order.objects.get(pk=id)
             serializer = OrderSerializer(order)
-            return Response(serializer.data)
+            return Response(
+                {**serializer.data, "fruit_details": get_fruit_details(order)}
+            )
         except Order.DoesNotExist:
             return Response({"error": "Not Found!"}, status=status.HTTP_404_NOT_FOUND)
 

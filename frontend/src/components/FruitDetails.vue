@@ -9,7 +9,7 @@ export default {
     props: {
         dialog: Boolean,
         fruitDetails: Object,
-        orderNumber: Number | null
+        orderId: Number | null
     },
 
     watch: {
@@ -24,7 +24,7 @@ export default {
     <div class="text-center bg-dark">
         <v-dialog v-model="fruitDetailsDialog" persistent width="600px">
             <v-card>
-                <h3 class="px-3 py-3">Order #{{ orderNumber }} Fruit Details:</h3>
+                <h3 class="px-3 py-3">Order #{{ orderId }} Fruit Details:</h3>
                 <v-table>
                     <thead>
                         <tr>
@@ -43,7 +43,7 @@ export default {
                         <tr v-for="item in fruitDetails" :key="item.id">
                             <td>{{ item.name }}</td>
                             <td>{{ item.collected }}</td>
-                            <td>{{ item.requested }}</td>
+                            <td>{{ item.collected + item.rest }}</td>
                         </tr>
                     </tbody>
                 </v-table>

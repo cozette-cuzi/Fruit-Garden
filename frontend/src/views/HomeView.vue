@@ -16,7 +16,7 @@ export default {
       newOrder: false,
       selectedOrder: {
         fruitRounds: null,
-        number: null,
+        id: null,
         fruitDetails: null
       },
       orders: []
@@ -46,12 +46,22 @@ export default {
     },
     getOrders() {
       this.loading = true;
-      console.log(this.loading);
       this.axios
         .get(this.$api.ACTIONS.ORDERS)
         .then(
           response => ((this.orders = response.data), (this.loading = false))
         );
+    },
+    getFruitDetails(item) {
+      this.selectedOrder = item;
+      this.fruitDetailsDialog = true;
+      this.axios
+        .get(this.$api.ACTIONS.ORDERS + "/" + this.selectedOrder.id)
+        .then(response => {
+          this.selectedOrder.fruitDetails = response.data.fruit_details;
+          console.log(this.selectedOrder);
+        })
+        .catch(err => console.log(err.error));
     }
   }
 };
@@ -85,7 +95,7 @@ export default {
       <tbody>
         <tr v-for="item in orders" :key="item.name">
           <td class="text-center">
-            <v-btn flat icon @click="(selectedOrder = item, fruitDetailsDialog = true)">
+            <v-btn flat icon @click="getFruitDetails(item)">
               <i class="material-icons small">keyboard_arrow_right</i>
             </v-btn>
           </td>
@@ -111,14 +121,14 @@ export default {
     <LoadingComponent :value="loading" />
     <FruitDetails
       :dialog="fruitDetailsDialog"
-      :orderNumber="selectedOrder.number"
+      :orderId="selectedOrder.id"
       :fruit-details="selectedOrder.fruitDetails"
       v-on:closeFruitDetails="fruitDetailsDialog = false"
     />
 
     <FruitRound
       :dialog="fruitRoundDialog"
-      :orderNumber="selectedOrder.number"
+      :orderId="selectedOrder.id"
       :fruit-rounds="selectedOrder.fruitRounds"
       v-on:closeFruitRound="fruitRoundsDialog = false"
     />
