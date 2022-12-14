@@ -37,20 +37,3 @@ def fulfill_order(order):
         order.status = "done"
         order.save()
 
-
-
-# def fulfill_orders():
-#     active_collection = CollectionRound.objects.filter(apple__gt=0).first()
-#     while (True):
-#         if active_collection.apple == 0:
-#             break
-#         order = Order.objects.filter(apple__gt=0).first()
-#         number = min(order.apple, active_collection.apple)
-#         order_collection = OrderCollection(
-#             order_id=order, collection_id=active_collection, fruit='apple', number=number)
-#         order_collection.save()
-#         active_collection.apple = active_collection.apple - number
-#         active_collection.save()
-#         order.apple = order.apple - number
-#         order.save()
-#         active_collection = CollectionRound.objects.filter(apple__gt=0).first()

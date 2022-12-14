@@ -18,14 +18,19 @@ export default {
   },
   methods: {
     postOrder() {
-      this.newOrder = false;
-      this.$emit("closeNewOrder");
-      
       this.axios
         .post(this.$api.ACTIONS.ORDERS, { order_entries: this.order })
         .then(response => {
-          console.log(response.data);
-        }).finally(() => this.order = this.fruits.map(s => ({ fruit_id: s.id, number: null })))
+          this.newOrder = false;
+          this.$emit("closeNewOrder");
+        })
+        .finally(
+          () =>
+            (this.order = this.fruits.map(s => ({
+              fruit_id: s.id,
+              number: null
+            })))
+        );
     }
   },
   mounted() {
@@ -35,7 +40,7 @@ export default {
   watch: {
     dialog: function() {
       this.newOrder = this.dialog;
-    },
+    }
   }
 };
 </script>

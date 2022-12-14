@@ -18,12 +18,12 @@ export default {
   },
   methods: {
     postRound() {
-      this.newRound = false;
-      this.$emit("closeNewRound");
       this.axios
         .post(this.$api.ACTIONS.ROUNDS, { round_entries: this.round })
         .then(response => {
           console.log(response.data);
+          this.newRound = false;
+          this.$emit("closeNewRound");
         })
         .finally(
           () =>

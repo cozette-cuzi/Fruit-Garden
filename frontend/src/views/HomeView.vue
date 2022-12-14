@@ -3,10 +3,12 @@ import NewOrderDialog from "../components/NewOrderDialog.vue";
 import NewRoundDialog from "../components/NewRoundDialog.vue";
 import FruitRounds from "../components/FruitRounds.vue";
 import FruitDetails from "../components/FruitDetails.vue";
+import LoadingComponent from "../components/LoadingComponent.vue";
 
 export default {
   data() {
     return {
+      loading: true,
       fruits: null,
       fruitDetailsDialog: false,
       fruitRoundsDialog: false,
@@ -24,19 +26,32 @@ export default {
     NewOrderDialog,
     NewRoundDialog,
     FruitRounds,
-    FruitDetails
+    FruitDetails,
+    LoadingComponent
   },
   mounted() {
     this.axios
       .get(this.$api.ACTIONS.FRUITS)
-      .then(response => (this.fruits = response.data));
+      .then(
+        response => ((this.fruits = response.data), (this.loading = false))
+      );
     this.getOrders();
   },
   methods: {
+    reload() {
+      this.newOrder = false;
+      this.newRound = false;
+      console.log("reloaded");
+      this.getOrders();
+    },
     getOrders() {
+      this.loading = true;
+      console.log(this.loading);
       this.axios
         .get(this.$api.ACTIONS.ORDERS)
-        .then(response => (this.orders = response.data));
+        .then(
+          response => ((this.orders = response.data), (this.loading = false))
+        );
     }
   }
 };
@@ -45,44 +60,55 @@ export default {
 <template>
   <main>
     <div class="d-flex flex-row mb-6 nav">
-      <v-btn class="ma-2" color="warning" @click="newOrder = true">
-        <div class="text-white">
+      <v-btn class="ma-2" color="primary" @click="newOrder = true">
+        <div class="text-white font-weight-bold">
           <v-icon icon="mdi-filter-variant-plus pr-3" />New Order
         </div>
       </v-btn>
       <v-btn class="ma-2" color="light" @click="newRound = true">
-        <v-icon icon="mdi-cart-plus pr-3" />Add Fuits
+        <div class="font-weight-bold">
+          <v-icon icon="mdi-cart-plus pr-3" />Add Fuits
+        </div>
       </v-btn>
     </div>
 
     <v-table fixed-header>
       <thead>
         <tr>
-          <th class="text-left text-subtitle-1 text-warning">Action</th>
-          <th class="text-left text-subtitle-1 text-warning">Order Number</th>
-          <th class="text-left text-subtitle-1 text-warning">Order Date</th>
-          <th class="text-left text-subtitle-1 text-warning">Collected/All</th>
-          <th class="text-left text-subtitle-1 text-warning">Status</th>
+          <th class="text-left text-subtitle-1 text-button text-center text-primary">Action</th>
+          <th class="text-left text-subtitle-1 text-button text-center text-primary">Order Number</th>
+          <th class="text-left text-subtitle-1 text-button text-center text-primary">Order Date</th>
+          <th class="text-left text-subtitle-1 text-button text-center text-primary">Collected/All</th>
+          <th class="text-left text-subtitle-1 text-button text-center text-primary">Status</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in orders" :key="item.name">
-          <td>
+          <td class="text-center">
             <v-btn flat icon @click="(selectedOrder = item, fruitDetailsDialog = true)">
               <i class="material-icons small">keyboard_arrow_right</i>
             </v-btn>
           </td>
           <td
-            class="pointer"
+            class="pointer text-center"
             @click="(selectedOrder = item, fruitRoundsDialog = true)"
           >{{ item.id }}</td>
-          <td>{{ item.created }}</td>
-          <td>{{ item.collected }} / {{ item.rest + item.collected }}</td>
-          <td>{{ item.status }}</td>
+          <td class="text-center">{{ item.created }}</td>
+          <td class="text-center">{{ item.collected }} / {{ item.rest + item.collected }}</td>
+          <td class="text-center">
+            <p
+              class="font-weight-bold"
+              :class="{
+                'text-grey': item.status == 'new',
+                'text-warning': item.status == 'collecting',
+                'text-success': item.status == 'done'
+              }"
+            >{{ item.status }}</p>
+          </td>
         </tr>
       </tbody>
     </v-table>
-
+    <LoadingComponent :value="loading" />
     <FruitDetails
       :dialog="fruitDetailsDialog"
       :orderNumber="selectedOrder.number"
@@ -97,8 +123,8 @@ export default {
       v-on:closeFruitRound="fruitRoundsDialog = false"
     />
 
-    <NewOrderDialog v-if="fruits" :dialog="newOrder" :fruits="fruits" v-on:closeNewOrder="newOrder = false" />
-    <NewRoundDialog v-if="fruits" :dialog="newRound" :fruits="fruits" v-on:closeNewRound="newRound = false" />
+    <NewOrderDialog v-if="fruits" :dialog="newOrder" :fruits="fruits" v-on:closeNewOrder="reload" />
+    <NewRoundDialog v-if="fruits" :dialog="newRound" :fruits="fruits" v-on:closeNewRound="reload" />
   </main>
 </template>
 
