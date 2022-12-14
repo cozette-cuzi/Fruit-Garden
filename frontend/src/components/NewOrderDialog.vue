@@ -20,26 +20,22 @@ export default {
     postOrder() {
       this.newOrder = false;
       this.$emit("closeNewOrder");
-      this.order.map(elem => {
-        elem.fruit_id = elem.id;
-        delete elem["id"];
-        delete elem["name"]
-      });
+      
       this.axios
         .post(this.$api.ACTIONS.ORDERS, { order_entries: this.order })
         .then(response => {
           console.log(response.data);
-        });
+        }).finally(() => this.order = this.fruits.map(s => ({ fruit_id: s.id, number: null })))
     }
+  },
+  mounted() {
+    this.order = this.fruits.map(s => ({ fruit_id: s.id, number: null }));
   },
 
   watch: {
     dialog: function() {
       this.newOrder = this.dialog;
     },
-    fruits: function() {
-      this.order = this.fruits;
-    }
   }
 };
 </script>

@@ -11,6 +11,8 @@ from rest_framework import status
 from django.db import transaction
 from django.core.exceptions import BadRequest
 from .view_helpers import *
+from django.db.models import Q
+
 
 class OrderList(APIView):
     def get(self, request, format=None):
@@ -53,6 +55,9 @@ class RoundList(APIView):
                     saved = serializer.save()
                     round = Round.objects.get(pk=saved.id)
                     generate_relationships(round_entries_data, round, 50)
+                    orders = Order.objects.filter(~Q(status="done"))
+                    for order in orders: 
+                        fulfill_order(order)
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
             except BadRequest:
                 return Response(exception=BadRequest, status=status.HTTP_400_BAD_REQUEST)

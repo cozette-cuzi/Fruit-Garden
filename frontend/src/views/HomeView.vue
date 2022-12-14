@@ -97,8 +97,8 @@ export default {
       v-on:closeFruitRound="fruitRoundsDialog = false"
     />
 
-    <NewOrderDialog :dialog="newOrder" :fruits="fruits" v-on:closeNewOrder="newOrder = false" />
-    <NewRoundDialog :dialog="newRound" :fruits="fruits" v-on:closeNewRound="newRound = false" />
+    <NewOrderDialog v-if="fruits" :dialog="newOrder" :fruits="fruits" v-on:closeNewOrder="newOrder = false" />
+    <NewRoundDialog v-if="fruits" :dialog="newRound" :fruits="fruits" v-on:closeNewRound="newRound = false" />
   </main>
 </template>
 

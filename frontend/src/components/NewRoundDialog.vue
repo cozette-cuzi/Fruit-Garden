@@ -20,26 +20,27 @@ export default {
     postRound() {
       this.newRound = false;
       this.$emit("closeNewRound");
-      this.round.map(elem => {
-        elem.fruit_id = elem.id;
-        delete elem["id"];
-        delete elem["name"];
-      });
-      console.log(this.round)
       this.axios
         .post(this.$api.ACTIONS.ROUNDS, { round_entries: this.round })
         .then(response => {
           console.log(response.data);
-        });
+        })
+        .finally(
+          () =>
+            (this.round = this.fruits.map(s => ({
+              fruit_id: s.id,
+              number: null
+            })))
+        );
     }
+  },
+  mounted() {
+    this.round = this.fruits.map(s => ({ fruit_id: s.id, number: null }));
   },
 
   watch: {
     dialog: function() {
       this.newRound = this.dialog;
-    },
-    fruits: function() {
-      this.round = this.fruits;
     }
   }
 };
@@ -66,11 +67,7 @@ export default {
             variant="text"
             @click="newRound = false, this.$emit('closeNewRound')"
           >Cancel</v-btn>
-          <v-btn
-            color="blue-darken-1"
-            variant="text"
-            @click="postRound"
-          >Save</v-btn>
+          <v-btn color="blue-darken-1" variant="text" @click="postRound">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
