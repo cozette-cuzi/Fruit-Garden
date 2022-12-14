@@ -22,11 +22,11 @@ class Order(models.Model):
     )
     @property
     def rest(self):
-        qs = self.entries.through.objects.filter(order_id=self).aggregate(rest=models.Sum('number'))
+        qs = self.order_entries.aggregate(rest=models.Sum('number'))
         return qs['rest']
     @property
     def collected(self):
-        entries = self.entries.through.objects.filter(order_id=self)
+        entries = self.order_entries.all()
         sum = 0
         for entry in entries:
             qs = entry.order_round_entries.aggregate(collected=models.Sum('number'))

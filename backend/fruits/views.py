@@ -39,6 +39,16 @@ class OrderList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class OrderDetail(APIView):
+    def get(self, request, id, format=None):
+        try:
+            order = Order.objects.get(pk=id)
+            serializer = OrderSerializer(order)
+            return Response(serializer.data)
+        except Order.DoesNotExist:
+            return Response({"error": "Not Found!"}, status=status.HTTP_404_NOT_FOUND)
+
+
 class RoundList(APIView):
     def get(self, request, format=None):
         rounds = Round.objects.all()
@@ -50,17 +60,19 @@ class RoundList(APIView):
         round_entries_data = request.data.pop("round_entries")
         serializer = RoundSerializer(data=request.data)
         if serializer.is_valid():
-            try:  
+            try:
                 with transaction.atomic():
                     saved = serializer.save()
                     round = Round.objects.get(pk=saved.id)
                     generate_relationships(round_entries_data, round, 50)
                     orders = Order.objects.filter(~Q(status="done"))
-                    for order in orders: 
+                    for order in orders:
                         fulfill_order(order)
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
             except BadRequest:
-                return Response(exception=BadRequest, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    exception=BadRequest, status=status.HTTP_400_BAD_REQUEST
+                )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
