@@ -31,7 +31,6 @@ class Order(models.Model):
         for entry in entries:
             qs = entry.order_round_entries.aggregate(collected=models.Sum('number'))
             if(qs['collected']): sum += qs['collected']
-        # qs = self.entries.through.objects.filter(order_id=self).aggregate(collected=models.Sum('number'))
         return sum
 
 

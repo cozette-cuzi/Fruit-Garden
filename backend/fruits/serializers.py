@@ -22,7 +22,7 @@ class OrderEntrySerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     order_entries = OrderEntrySerializer(many=True, read_only=True)
-    created = serializers.DateTimeField(format="%Y.%m.%d %H:%M")
+    created = serializers.DateTimeField(format="%Y.%m.%d %H:%M", read_only=True)
     class Meta:
         model = Order
         fields = ["id", "status", "created", "order_entries", "rest", "collected"]

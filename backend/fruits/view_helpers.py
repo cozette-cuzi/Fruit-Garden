@@ -5,8 +5,9 @@ from django.core.exceptions import BadRequest
 def generate_relationships(entries, object, max):
     for entry_data in entries:
         number = entry_data["number"]
-        if number > max:
-            print(number)
+        if(number == None):
+            continue
+        elif number > max:
             raise BadRequest()
         object.entries.add(
             entry_data["fruit_id"],
