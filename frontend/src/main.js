@@ -8,9 +8,11 @@ import * as directives from "vuetify/directives";
 import "@mdi/font/css/materialdesignicons.css";
 import axios from "axios";
 import api from "@/constants/api";
+import events from "./constants/events";
 import VueAxios from "vue-axios";
-
 import "./assets/main.css";
+import mitt from 'mitt';
+
 
 const myCustomLightTheme = {
   dark: false,
@@ -37,11 +39,22 @@ const vuetify = createVuetify({
     },
   },
 });
+
+const showSnackbar = message => {
+  EventBus.$emit(ACTIONS.SNACKBAR, message);
+};
+
+
 axios.defaults.timeout = 1000 * 300;
 axios.defaults.baseURL = api.MAIN_URL;
 
 const app = createApp(App);
+const emitter = mitt();
 app.config.globalProperties.$api = api;
+app.config.globalProperties.$events = events
+app.config.globalProperties.emitter = emitter;
+
+
 app.use(VueAxios, axios);
 app.use(router);
 app.use(vuetify);

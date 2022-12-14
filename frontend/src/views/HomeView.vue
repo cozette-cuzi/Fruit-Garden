@@ -27,7 +27,7 @@ export default {
     NewRoundDialog,
     FruitRounds,
     FruitDetails,
-    LoadingComponent
+    LoadingComponent,
   },
   mounted() {
     this.axios

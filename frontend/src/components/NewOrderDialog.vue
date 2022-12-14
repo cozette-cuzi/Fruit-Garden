@@ -3,6 +3,11 @@ export default {
   data() {
     return {
       newOrder: this.dialog,
+      snackbar: {
+        message: "Data Saved!",
+        type: "success",
+        value: false
+      },
       order: null,
       maxOrderRules: [
         v =>
@@ -22,26 +27,30 @@ export default {
         .post(this.$api.ACTIONS.ORDERS, { order_entries: this.order })
         .then(response => {
           this.newOrder = false;
+          this.emitter.emit(this.$events.SHOW_SNACKBAR, "Data Saved!");
+
           this.$emit("closeNewOrder");
         })
-        .finally(
-          () =>
-            (this.order = this.fruits.map(s => ({
-              fruit_id: s.id,
-              number: null
-            })))
-        );
+        .catch(err => {
+          this.emitter.emit(this.$events.SHOW_SNACKBAR, "Something Wrong!");
+        })
+        .finally(() => {
+          this.order = this.fruits.map(item => ({
+            fruit_id: item.id,
+            number: null
+          }));
+          this.snackbar.value = false;
+        });
     }
   },
   mounted() {
     this.order = this.fruits.map(s => ({ fruit_id: s.id, number: null }));
   },
-
   watch: {
     dialog: function() {
       this.newOrder = this.dialog;
     }
-  }
+  },
 };
 </script>
 
