@@ -74,7 +74,12 @@ export default {
 
 <template>
   <main>
-    <div class="d-flex flex-row mb-6 nav">
+    <div class="mb-6 nav">
+      <div>
+        <h1>Fruit Garden</h1>
+        <v-divider></v-divider>
+      </div>
+
       <v-btn class="ma-2" color="primary" @click="newOrder = true">
         <div class="text-white font-weight-bold">
           <v-icon icon="mdi-filter-variant-plus pr-3" />New Order
@@ -112,11 +117,11 @@ export default {
           <td class="text-center">{{ item.collected }} / {{ item.rest + item.collected }}</td>
           <td class="text-center">
             <p
-              class="font-weight-bold"
+              class="font-weight-light text-button"
               :class="{
-                'text-grey': item.status == 'new',
+                'text-info': item.status == 'new',
                 'text-warning': item.status == 'collecting',
-                'text-success': item.status == 'done'
+                'text-green': item.status == 'done'
               }"
             >{{ item.status }}</p>
           </td>
@@ -145,8 +150,14 @@ export default {
 
 <style scoped>
 .nav {
-  min-width: 1100px;
+  min-width: 900px;
   margin: 0 auto;
+}
+
+.container {
+  justify-self: center;
+    justify-content: center;
+    display: flex;
 }
 
 .pointer {

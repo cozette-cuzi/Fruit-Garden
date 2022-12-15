@@ -22,28 +22,28 @@ export default {
 
 <template>
     <div class="text-center bg-dark">
-        <v-dialog v-model="fruitDetailsDialog" persistent width="600px">
+        <v-dialog v-model="fruitDetailsDialog" persistent width="360px">
             <v-card>
                 <h3 class="px-3 py-3">Order #{{ orderId }} Fruit Details:</h3>
                 <v-table>
                     <thead>
                         <tr>
-                            <th class="text-left text-subtitle-1 text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-warning">
                                 Fruit
                             </th>
-                            <th class="text-left text-subtitle-1 text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-warning">
                                 Collected
                             </th>
-                            <th class="text-left text-subtitle-1 text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-warning">
                                 Requested
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="item in fruitDetails" :key="item.id">
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.collected }}</td>
-                            <td>{{ item.collected + item.rest }}</td>
+                            <td class="text-center">{{ item.name }}</td>
+                            <td class="text-center">{{ item.collected }}</td>
+                            <td class="text-center">{{ item.collected + item.rest }}</td>
                         </tr>
                     </tbody>
                 </v-table>
