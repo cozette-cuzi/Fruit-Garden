@@ -27,14 +27,18 @@ export default {
     NewRoundDialog,
     FruitRounds,
     FruitDetails,
-    LoadingComponent,
+    LoadingComponent
   },
   mounted() {
     this.axios
       .get(this.$api.ACTIONS.FRUITS)
-      .then(
-        response => ((this.fruits = response.data), (this.loading = false))
-      );
+      .then(response => {
+        this.fruits = response.data;
+        this.emitter.emit(this.$events.SHOW_LOADING);
+      })
+      .finally(() => {
+        this.emitter.emit(this.$events.HIDE_LOADING);
+      });
     this.getOrders();
   },
   methods: {
@@ -45,23 +49,26 @@ export default {
       this.getOrders();
     },
     getOrders() {
-      this.loading = true;
-      this.axios
-        .get(this.$api.ACTIONS.ORDERS)
-        .then(
-          response => ((this.orders = response.data), (this.loading = false))
-        );
+      this.emitter.emit(this.$events.SHOW_LOADING);
+      this.axios.get(this.$api.ACTIONS.ORDERS).then(response => {
+        this.orders = response.data;
+        this.emitter.emit(this.$events.HIDE_LOADING);
+      });
     },
     getFruitDetails(item) {
       this.selectedOrder = item;
       this.fruitDetailsDialog = true;
+      this.emitter.emit(this.$events.SHOW_LOADING);
       this.axios
         .get(this.$api.ACTIONS.ORDERS + "/" + this.selectedOrder.id)
         .then(response => {
           this.selectedOrder.fruitDetails = response.data.fruit_details;
           console.log(this.selectedOrder);
         })
-        .catch(err => console.log(err.error));
+        .catch(err => console.log(err.error))
+        .finally(() => {
+          this.emitter.emit(this.$events.HIDE_LOADING);
+        });
     }
   }
 };
@@ -118,7 +125,6 @@ export default {
         </tr>
       </tbody>
     </v-table>
-    <LoadingComponent :value="loading" />
     <FruitDetails
       :dialog="fruitDetailsDialog"
       :orderId="selectedOrder.id"

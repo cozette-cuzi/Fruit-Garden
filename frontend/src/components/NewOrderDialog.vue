@@ -3,11 +3,6 @@ export default {
   data() {
     return {
       newOrder: this.dialog,
-      snackbar: {
-        message: "Data Saved!",
-        type: "success",
-        value: false
-      },
       order: null,
       maxOrderRules: [
         v =>
@@ -39,7 +34,6 @@ export default {
             fruit_id: item.id,
             number: null
           }));
-          this.snackbar.value = false;
         });
     }
   },
