@@ -43,7 +43,6 @@ export default {
     reload() {
       this.newOrder = false;
       this.newRound = false;
-      console.log("reloaded");
       this.getOrders();
     },
     getOrders() {
@@ -61,7 +60,6 @@ export default {
         .get(this.$api.ACTIONS.ORDERS + "/" + this.selectedOrder.id)
         .then(response => {
           this.selectedOrder.fruitDetails = response.data.fruit_details;
-          console.log(this.selectedOrder);
         })
         .catch(err => console.log(err.error))
         .finally(() => {

@@ -21,7 +21,6 @@ export default {
       this.axios
         .post(this.$api.ACTIONS.ROUNDS, { round_entries: this.round })
         .then(response => {
-          console.log(response.data);
           this.newRound = false;
           this.emitter.emit(this.$events.SHOW_SNACKBAR, "Data Saved!");
           this.$emit("closeNewRound");

@@ -1,6 +1,7 @@
 from .models import Order, RoundEntry, OrderEntry, OrderRound
 from django.core.exceptions import BadRequest
 from django.db import models
+from .serializers import OrderRoundSerializer
 
 
 def generate_relationships(entries, object, max):
@@ -60,3 +61,9 @@ def get_fruit_details(order):
             }
         )
     return result
+
+
+def get_round_details(order):
+    order_entries = order.order_entries.all()
+    order_rounds = OrderRound.objects.filter(order_entry_id__in=order_entries)
+    return OrderRoundSerializer(order_rounds, many=True).data
