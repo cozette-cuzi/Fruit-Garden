@@ -23,8 +23,12 @@ export default {
         .then(response => {
           console.log(response.data);
           this.newRound = false;
+          this.emitter.emit(this.$events.SHOW_SNACKBAR, "Data Saved!");
           this.$emit("closeNewRound");
         })
+        .catch(() =>
+          this.emitter.emit(this.$events.SHOW_SNACKBAR, "Something Wrong!")
+        )
         .finally(
           () =>
             (this.round = this.fruits.map(s => ({

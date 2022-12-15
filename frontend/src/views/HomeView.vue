@@ -3,7 +3,6 @@ import NewOrderDialog from "../components/NewOrderDialog.vue";
 import NewRoundDialog from "../components/NewRoundDialog.vue";
 import FruitRounds from "../components/FruitRounds.vue";
 import FruitDetails from "../components/FruitDetails.vue";
-import LoadingComponent from "../components/LoadingComponent.vue";
 
 export default {
   data() {
@@ -26,8 +25,7 @@ export default {
     NewOrderDialog,
     NewRoundDialog,
     FruitRounds,
-    FruitDetails,
-    LoadingComponent
+    FruitDetails
   },
   mounted() {
     this.axios

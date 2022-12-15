@@ -23,7 +23,6 @@ export default {
         .then(response => {
           this.newOrder = false;
           this.emitter.emit(this.$events.SHOW_SNACKBAR, "Data Saved!");
-
           this.$emit("closeNewOrder");
         })
         .catch(err => {
