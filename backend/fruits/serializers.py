@@ -51,7 +51,8 @@ class RoundSerializer(serializers.ModelSerializer):
 
 
 class OrderRoundSerializer(serializers.ModelSerializer):
-    fruit = FruitSerializer(read_only=True, source="order_entry_id.fruit_id")
+    fruit = serializers.SlugField(read_only=True, source="order_entry_id.fruit_id.name")
+    round_id = serializers.SlugField(read_only=True, source="round_entry_id.round_id.id")
     class Meta:
         model = OrderRound
-        fields =  ["id", "number", "fruit"]
+        fields =  ["id", "round_id", "number", "fruit"]

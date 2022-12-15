@@ -7,16 +7,15 @@ import FruitDetails from "../components/FruitDetails.vue";
 export default {
   data() {
     return {
-      loading: true,
       fruits: null,
       fruitDetailsDialog: false,
       fruitRoundsDialog: false,
       newRound: false,
       newOrder: false,
       selectedOrder: {
-        fruitRounds: null,
+        fruit_details: null,
         id: null,
-        fruitDetails: null
+        round_details: null
       },
       orders: []
     };
@@ -52,14 +51,13 @@ export default {
         this.emitter.emit(this.$events.HIDE_LOADING);
       });
     },
-    getFruitDetails(item) {
+    getItemDetails(item) {
       this.selectedOrder = item;
-      this.fruitDetailsDialog = true;
       this.emitter.emit(this.$events.SHOW_LOADING);
       this.axios
         .get(this.$api.ACTIONS.ORDERS + "/" + this.selectedOrder.id)
         .then(response => {
-          this.selectedOrder.fruitDetails = response.data.fruit_details;
+          this.selectedOrder = response.data;
         })
         .catch(err => console.log(err.error))
         .finally(() => {
@@ -72,7 +70,30 @@ export default {
 
 <template>
   <main>
-    <div class="mb-6 nav">
+    <v-toolbar>
+      <v-row class="m-6 nav">
+      <v-col>
+        <h1>Fruit Garden</h1>
+      </v-col>
+      <v-col class="text-right">
+        <v-btn class="ma-2" color="primary" @click="newOrder = true">
+          <div class="text-white font-weight-bold">
+            <v-icon icon="mdi-filter-variant-plus pr-3" />New Order
+          </div>
+        </v-btn>
+        <v-btn class="ma-2" color="light" @click="newRound = true">
+          <div class="font-weight-bold">
+            <v-icon icon="mdi-cart-plus pr-3" />Add Fruits
+          </div>
+        </v-btn>
+      </v-col>
+
+    </v-row>
+    </v-toolbar>
+    
+    <v-divider class="mb-3"></v-divider>
+
+    <!-- <div class="mb-6 nav">
       <div>
         <h1>Fruit Garden</h1>
         <v-divider></v-divider>
@@ -85,10 +106,10 @@ export default {
       </v-btn>
       <v-btn class="ma-2" color="light" @click="newRound = true">
         <div class="font-weight-bold">
-          <v-icon icon="mdi-cart-plus pr-3" />Add Fuits
+          <v-icon icon="mdi-cart-plus pr-3" />Add Fruits
         </div>
       </v-btn>
-    </div>
+    </div> -->
 
     <v-table fixed-header>
       <thead>
@@ -103,14 +124,21 @@ export default {
       <tbody>
         <tr v-for="item in orders" :key="item.name">
           <td class="text-center">
-            <v-btn flat icon @click="getFruitDetails(item)">
-              <i class="material-icons small">keyboard_arrow_right</i>
+            <v-btn flat icon @click="getItemDetails(item), fruitDetailsDialog = true">
+              <v-tooltip location="bottom" text="Show Fruit Details">
+                <template v-slot:activator="{ props }">
+                  <i class="material-icons small" v-bind="props">keyboard_arrow_down</i>
+                </template>
+              </v-tooltip>
             </v-btn>
           </td>
-          <td
-            class="pointer text-center"
-            @click="(selectedOrder = item, fruitRoundsDialog = true)"
-          >{{ item.id }}</td>
+          <td class="pointer text-center" @click="(getItemDetails(item), fruitRoundsDialog = true)">
+            <v-tooltip location="bottom" text="Show Order Rounds">
+              <template v-slot:activator="{ props }">
+                <span v-bind="props">{{ item.id }}</span>
+              </template>
+            </v-tooltip>
+          </td>
           <td class="text-center">{{ item.created }}</td>
           <td class="text-center">{{ item.collected }} / {{ item.rest + item.collected }}</td>
           <td class="text-center">
@@ -129,14 +157,14 @@ export default {
     <FruitDetails
       :dialog="fruitDetailsDialog"
       :orderId="selectedOrder.id"
-      :fruit-details="selectedOrder.fruitDetails"
+      :fruit-details="selectedOrder.fruit_details"
       v-on:closeFruitDetails="fruitDetailsDialog = false"
     />
 
-    <FruitRound
-      :dialog="fruitRoundDialog"
+    <FruitRounds
+      :dialog="fruitRoundsDialog"
       :orderId="selectedOrder.id"
-      :fruit-rounds="selectedOrder.fruitRounds"
+      :round-details="selectedOrder.round_details"
       v-on:closeFruitRound="fruitRoundsDialog = false"
     />
 
@@ -154,8 +182,8 @@ export default {
 
 .container {
   justify-self: center;
-    justify-content: center;
-    display: flex;
+  justify-content: center;
+  display: flex;
 }
 
 .pointer {

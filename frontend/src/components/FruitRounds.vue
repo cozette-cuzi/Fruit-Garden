@@ -3,13 +3,12 @@ export default {
     data() {
         return {
             fruitRoundsDialog: false,
-
         }
     },
     props: {
         dialog: Boolean,
-        fruitRounds: Object,
-        orderNumber: Number | null
+        roundDetails: Object,
+        orderId: Number | null
     },
 
     watch: {
@@ -22,28 +21,28 @@ export default {
 
 <template>
     <div class="text-center bg-dark">
-        <v-dialog v-model="fruitRoundsDialog" persistent width="600px">
+        <v-dialog v-model="fruitRoundsDialog" persistent width="400px">
             <v-card >
-                <h3 class="pa-3">Order #{{ orderNumber }} Fruit Rounds:</h3>
-                <v-table v-if="(this.fruitRounds )">
+                <h3 class="pa-3">Order #{{ orderId }} Rounds:</h3>
+                <v-table v-if="this.roundDetails && this.roundDetails.length">
                     <thead>
                         <tr>
-                            <th class="text-left text-subtitle-1 text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-warning">
                                 Round
                             </th>
-                            <th class="text-left text-subtitle-1 text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-warning">
                                 Fruit
                             </th>
-                            <th class="text-left text-subtitle-1 text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-warning">
                                 Number
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in fruitRounds" :key="item.id">
-                            <td>{{ item.round }}</td>
-                            <td>{{ item.fruit }}</td>
-                            <td>{{ item.number }}</td>
+                        <tr v-for="item in roundDetails" :key="item.id">
+                            <td class="text-center">{{ item.round_id }}</td>
+                            <td class="text-center">{{ item.fruit }}</td>
+                            <td class="text-center">{{ item.number }}</td>
                         </tr>
                     </tbody>
                 </v-table>
