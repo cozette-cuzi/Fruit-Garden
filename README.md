@@ -36,7 +36,7 @@ python manage.py runserver
 #### Frontend
 It requires [Node.js](https://nodejs.org/).
 
-move to `frontend` directory, then run:
+Move to `frontend` directory, then run:
 ```sh
 npm install
 npm run dev
