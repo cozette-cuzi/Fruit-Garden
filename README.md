@@ -25,7 +25,7 @@ we would like to track from which collection round we got the fruits.
 We have two seperate directories, one for the backend and another for the frontend.
 
 #### Backend
-in the `backend` directory, and after activating the venv run:
+In the `backend` directory, and after activating the venv run:
 ```sh
 pip install -r requirements.txt
 python manage.py makemigrations
