@@ -6,9 +6,9 @@ export default {
       order: null,
       maxOrderRules: [
         v =>
-          (v && v <= 100) ||
+          (v && v <= 100 && v > 0) ||
           null ||
-          "Fruit number must be less than 100 in the order"
+          "Fruit must be a number and less than 100 in the order"
       ]
     };
   },
@@ -28,23 +28,23 @@ export default {
           this.emitter.emit(this.$events.SHOW_SNACKBAR, "Something Wrong!");
         })
         .finally(() => {
-          this.order = this.fruits.map(item => ({
-            fruit_id: item.id,
-            number: null
-          }));
+          this.initializeOrder();
         });
+    },
+    cancel() {
+      this.newOrder = false;
+      this.$emit("closeNewOrder");
+      this.initializeOrder();
+    },
+    initializeOrder() {
+      this.order = this.fruits.map(s => ({ fruit_id: s.id, number: null }));
     }
   },
   mounted() {
-    this.order = this.fruits.map(s => ({ fruit_id: s.id, number: null }));
+    this.initializeOrder();
     this.emitter.on(this.$events.NEW_ORDER_DIALOG, () => {
       this.newOrder = true;
     });
-  },
-  watch: {
-    // dialog: function() {
-    //   this.newOrder = this.dialog;
-    // }
   }
 };
 </script>
@@ -65,11 +65,7 @@ export default {
         </v-form>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="blue-darken-1"
-            variant="text"
-            @click="newOrder = false, this.$emit('closeNewOrder')"
-          >Cancel</v-btn>
+          <v-btn color="blue-darken-1" variant="text" @click="cancel">Cancel</v-btn>
           <v-btn color="blue-darken-1" variant="text" @click="postOrder">Save</v-btn>
         </v-card-actions>
       </v-card>

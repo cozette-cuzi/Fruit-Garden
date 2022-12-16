@@ -51,7 +51,7 @@ export default {
                     <v-spacer></v-spacer>
                     <v-btn color="blue-darken-1" variant="text"
                         @click="fruitRoundsDialog = false, this.$emit('closeFruitRound')">
-                        Cancel
+                        Close
                     </v-btn>
                 </v-card-actions>
             </v-card>

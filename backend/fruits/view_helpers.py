@@ -7,9 +7,9 @@ from .serializers import OrderRoundSerializer
 def generate_relationships(entries, object, max):
     for entry_data in entries:
         number = entry_data["number"]
-        if number == None:
+        if number is None:
             continue
-        elif number > max:
+        elif number > max or number < 0:
             raise BadRequest()
         object.entries.add(
             entry_data["fruit_id"],

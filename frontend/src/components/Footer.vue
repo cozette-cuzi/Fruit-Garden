@@ -24,24 +24,6 @@
         href="https://github.com/cozette-cuzi/"
         target="_blank"
       ></v-btn>
-
-      <v-btn
-        class="mx-4"
-        icon="mdi-facebook"
-        variant="plain"
-        size="small"
-        href="https://www.facebook.com/cozette.cuzi/"
-        target="_blank"
-      ></v-btn>
-
-      <v-btn
-        class="mx-4"
-        icon="mdi-instagram"
-        variant="plain"
-        size="small"
-        href="https://www.instagram.com/cozette_cuzi/"
-        target="_blank"
-      ></v-btn>
     </div>
   </v-footer>
 </template>
