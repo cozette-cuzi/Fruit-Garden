@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      newOrder: this.dialog,
+      newOrder: false,
       order: null,
       maxOrderRules: [
         v =>
@@ -13,7 +13,6 @@ export default {
     };
   },
   props: {
-    dialog: Boolean,
     fruits: Array
   },
   methods: {
@@ -38,12 +37,15 @@ export default {
   },
   mounted() {
     this.order = this.fruits.map(s => ({ fruit_id: s.id, number: null }));
+    this.emitter.on(this.$events.NEW_ORDER_DIALOG, () => {
+      this.newOrder = true;
+    });
   },
   watch: {
-    dialog: function() {
-      this.newOrder = this.dialog;
-    }
-  },
+    // dialog: function() {
+    //   this.newOrder = this.dialog;
+    // }
+  }
 };
 </script>
 

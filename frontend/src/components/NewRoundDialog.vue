@@ -13,7 +13,6 @@ export default {
     };
   },
   props: {
-    dialog: Boolean,
     fruits: Array
   },
   methods: {
@@ -39,6 +38,10 @@ export default {
   },
   mounted() {
     this.round = this.fruits.map(s => ({ fruit_id: s.id, number: null }));
+
+    this.emitter.on(this.$events.NEW_ROUND_DIALOG, () => {
+      this.newRound = true;
+    });
   },
 
   watch: {
