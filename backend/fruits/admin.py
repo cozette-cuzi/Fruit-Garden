@@ -13,5 +13,3 @@ admin.site.register(OrderEntry)
 admin.site.register(RoundEntry)
 admin.site.register(OrderRound)
 admin.site.register(Fruit)
-
-

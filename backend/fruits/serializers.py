@@ -1,10 +1,5 @@
 from rest_framework import serializers
-from .models import Order
-from .models import OrderEntry
-from .models import Round
-from .models import RoundEntry
-from .models import OrderRound
-from .models import Fruit
+from .models import Order, OrderEntry, Round, OrderRound, RoundEntry, Fruit
 from rest_framework.validators import *
 
 
@@ -23,6 +18,7 @@ class OrderEntrySerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     order_entries = OrderEntrySerializer(many=True, read_only=True)
     created = serializers.DateTimeField(format="%Y.%m.%d %H:%M", read_only=True)
+
     class Meta:
         model = Order
         fields = ["id", "status", "created", "order_entries", "rest", "collected"]
@@ -52,7 +48,10 @@ class RoundSerializer(serializers.ModelSerializer):
 
 class OrderRoundSerializer(serializers.ModelSerializer):
     fruit = serializers.SlugField(read_only=True, source="order_entry_id.fruit_id.name")
-    round_id = serializers.SlugField(read_only=True, source="round_entry_id.round_id.id")
+    round_id = serializers.SlugField(
+        read_only=True, source="round_entry_id.round_id.id"
+    )
+
     class Meta:
         model = OrderRound
-        fields =  ["id", "round_id", "number", "fruit"]
+        fields = ["id", "round_id", "number", "fruit"]

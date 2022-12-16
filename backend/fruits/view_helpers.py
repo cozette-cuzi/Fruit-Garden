@@ -1,4 +1,4 @@
-from .models import Order, RoundEntry, OrderEntry, OrderRound
+from .models import RoundEntry, OrderRound
 from django.core.exceptions import BadRequest
 from django.db import models
 from .serializers import OrderRoundSerializer
