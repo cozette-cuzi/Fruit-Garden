@@ -41,7 +41,7 @@ export default {
                     <tbody>
                         <tr v-for="item in roundDetails" :key="item.id">
                             <td class="text-center">{{ item.round_id }}</td>
-                            <td class="text-center">{{ item.fruit }}</td>
+                            <td class="text-center text-capitalize">{{ item.fruit }}</td>
                             <td class="text-center">{{ item.number }}</td>
                         </tr>
                     </tbody>

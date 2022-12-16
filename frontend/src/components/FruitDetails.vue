@@ -41,7 +41,7 @@ export default {
                     </thead>
                     <tbody>
                         <tr v-for="item in fruitDetails" :key="item.id">
-                            <td class="text-center">{{ item.name }}</td>
+                            <td class="text-center text-capitalize">{{ item.name }}</td>
                             <td class="text-center">{{ item.collected }}</td>
                             <td class="text-center">{{ item.collected + item.rest }}</td>
                         </tr>

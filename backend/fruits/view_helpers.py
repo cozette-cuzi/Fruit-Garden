@@ -5,16 +5,20 @@ from .serializers import OrderRoundSerializer
 
 
 def generate_relationships(entries, object, max):
+    allEmpty = True
     for entry_data in entries:
         number = entry_data["number"]
         if number is None:
             continue
         elif number > max or number < 0:
             raise BadRequest()
+        allEmpty = False
         object.entries.add(
             entry_data["fruit_id"],
             through_defaults={"number": number},
         )
+    if allEmpty:
+        raise BadRequest()
 
 
 def fulfill_order(order):
