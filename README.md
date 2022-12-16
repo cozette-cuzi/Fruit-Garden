@@ -34,7 +34,7 @@ python manage.py loaddata Fruit
 python manage.py runserver
 ```
 
-To Create a superuser:
+To Create a superuser for the django admin panel:
 ```sh
 python manage.py createsuperuser
 ```
