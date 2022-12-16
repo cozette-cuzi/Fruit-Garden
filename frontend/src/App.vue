@@ -29,10 +29,10 @@ export default {
   <v-app>
     <div class="container">
       <LoadingComponent :value="loading" />
-      <v-snackbar location="right bottom" v-model="snackbar" timeout="2500" class="snackbar">
+      <v-snackbar location="center bottom" v-model="snackbar" timeout="2500">
         {{ message }}
         <template v-slot:actions>
-          <v-btn color="red" variant="text" @click="snackbar = false">Close</v-btn>
+          <v-btn color="white" variant="text" @click="snackbar = false">Close</v-btn>
         </template>
       </v-snackbar>
 
@@ -49,7 +49,5 @@ export default {
     justify-content: center;
     display: flex;
 }
-.snackbar {
-  margin-bottom: 50px;
-}
+
 </style>

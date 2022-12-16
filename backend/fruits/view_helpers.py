@@ -10,7 +10,7 @@ def generate_relationships(entries, object, max):
         number = entry_data["number"]
         if number is None:
             continue
-        elif number > max or number < 0:
+        elif number > max or number <= 0:
             raise BadRequest()
         allEmpty = False
         object.entries.add(

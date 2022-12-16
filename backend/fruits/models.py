@@ -38,7 +38,6 @@ class Order(models.Model):
 
 
 class Round(models.Model):
-    done = models.BooleanField(default=False)
     entries = models.ManyToManyField(
         Fruit, related_name="round_entries", through="RoundEntry"
     )

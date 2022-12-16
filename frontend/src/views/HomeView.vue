@@ -74,7 +74,7 @@ export default {
     <v-divider class="mb-3"></v-divider>
 
     <div class="window">
-      <v-table fixed-header>
+      <v-table v-if="orders.length > 0" fixed-header>
         <thead>
           <tr>
             <th class="text-left text-subtitle-1 text-button text-center text-primary">Action</th>
@@ -101,7 +101,7 @@ export default {
             >
               <v-tooltip location="bottom" text="Show Order Rounds">
                 <template v-slot:activator="{ props }">
-                  <span v-bind="props">{{ item.id }}</span>
+                  <v-btn flat icon v-bind="props">{{ item.id }}</v-btn>
                 </template>
               </v-tooltip>
             </td>
@@ -120,6 +120,7 @@ export default {
           </tr>
         </tbody>
       </v-table>
+      <h2 v-else class="pl-10">No Entries Yet!</h2>
     </div>
 
     <FruitDetails

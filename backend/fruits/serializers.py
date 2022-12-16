@@ -43,7 +43,7 @@ class RoundSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Round
-        fields = ["id", "done", "round_entries"]
+        fields = ["id", "round_entries"]
 
 
 class OrderRoundSerializer(serializers.ModelSerializer):
