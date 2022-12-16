@@ -27,13 +27,13 @@ export default {
                 <v-table v-if="this.roundDetails && this.roundDetails.length">
                     <thead>
                         <tr>
-                            <th class="text-left text-subtitle-1 text-center text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-primary">
                                 Round
                             </th>
-                            <th class="text-left text-subtitle-1 text-center text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-primary">
                                 Fruit
                             </th>
-                            <th class="text-left text-subtitle-1 text-center text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-primary">
                                 Number
                             </th>
                         </tr>

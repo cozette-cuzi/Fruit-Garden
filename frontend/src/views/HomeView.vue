@@ -3,10 +3,12 @@ import NewOrderDialog from "../components/NewOrderDialog.vue";
 import NewRoundDialog from "../components/NewRoundDialog.vue";
 import FruitRounds from "../components/FruitRounds.vue";
 import FruitDetails from "../components/FruitDetails.vue";
+import image from "../assets/logo.png";
 
 export default {
   data() {
     return {
+      image: image,
       fruits: null,
       fruitDetailsDialog: false,
       fruitRoundsDialog: false,
@@ -70,10 +72,14 @@ export default {
 
 <template>
   <main>
-    <v-toolbar>
-      <v-row class="m-6 nav">
-      <v-col>
-        <h1>Fruit Garden</h1>
+    <v-row class="m-6 nav">
+      <v-col cols="1">
+        <img class="logo" :src="image" />
+      </v-col>
+      <v-col class="pl-0 pt-4">
+        <h1 class="pa-0 title text-green">
+          Fruit Garden
+          </h1>
       </v-col>
       <v-col class="text-right">
         <v-btn class="ma-2" color="primary" @click="newOrder = true">
@@ -81,35 +87,16 @@ export default {
             <v-icon icon="mdi-filter-variant-plus pr-3" />New Order
           </div>
         </v-btn>
-        <v-btn class="ma-2" color="light" @click="newRound = true">
+        <v-btn class="ma-2" color="green" @click="newRound = true">
           <div class="font-weight-bold">
             <v-icon icon="mdi-cart-plus pr-3" />Add Fruits
           </div>
         </v-btn>
       </v-col>
-
     </v-row>
-    </v-toolbar>
-    
+
     <v-divider class="mb-3"></v-divider>
 
-    <!-- <div class="mb-6 nav">
-      <div>
-        <h1>Fruit Garden</h1>
-        <v-divider></v-divider>
-      </div>
-
-      <v-btn class="ma-2" color="primary" @click="newOrder = true">
-        <div class="text-white font-weight-bold">
-          <v-icon icon="mdi-filter-variant-plus pr-3" />New Order
-        </div>
-      </v-btn>
-      <v-btn class="ma-2" color="light" @click="newRound = true">
-        <div class="font-weight-bold">
-          <v-icon icon="mdi-cart-plus pr-3" />Add Fruits
-        </div>
-      </v-btn>
-    </div> -->
 
     <v-table fixed-header>
       <thead>
@@ -145,7 +132,7 @@ export default {
             <p
               class="font-weight-light text-button"
               :class="{
-                'text-info': item.status == 'new',
+                'text-grey': item.status == 'new',
                 'text-warning': item.status == 'collecting',
                 'text-green': item.status == 'done'
               }"
@@ -192,5 +179,16 @@ export default {
 
 .small {
   font-size: 16px;
+}
+
+.logo {
+  width: 58%;
+  object-fit: cover;
+  overflow: hidden;
+  float: right;
+  margin-top: 10px;
+}
+.title{
+  font-family: "Luckiest Guy", Helvetica, Arial;
 }
 </style>

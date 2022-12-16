@@ -28,13 +28,13 @@ export default {
                 <v-table>
                     <thead>
                         <tr>
-                            <th class="text-left text-subtitle-1 text-center text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-primary">
                                 Fruit
                             </th>
-                            <th class="text-left text-subtitle-1 text-center text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-primary">
                                 Collected
                             </th>
-                            <th class="text-left text-subtitle-1 text-center text-warning">
+                            <th class="text-left text-subtitle-1 text-center text-primary">
                                 Requested
                             </th>
                         </tr>
