@@ -22,20 +22,28 @@ we would like to track from which collection round we got the fruits.
 
 ## Installation
 
-Install the dependencies and devDependencies and start the server.
+We have two seperate directories, one for the backend and another for the frontend.
 
 #### Backend
-in the `backend` directory, and after activating the venv run:
+In the `backend` directory, and after activating the venv run:
 ```sh
+pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
 python manage.py loaddata Fruit
 python manage.py runserver
 ```
+
+To Create a superuser for the django admin panel:
+```sh
+python manage.py createsuperuser
+```
+
+
 #### Frontend
 It requires [Node.js](https://nodejs.org/).
 
-move to `frontend` directory, then run:
+Move to `frontend` directory, then run:
 ```sh
 npm install
 npm run dev
