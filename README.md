@@ -27,6 +27,7 @@ Install the dependencies and devDependencies and start the server.
 #### Backend
 in the `backend` directory, and after activating the venv run:
 ```sh
+pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
 python manage.py loaddata Fruit
