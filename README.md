@@ -33,6 +33,13 @@ python manage.py migrate
 python manage.py loaddata Fruit
 python manage.py runserver
 ```
+
+To Create a superuser:
+```sh
+python manage.py createsuperuser
+```
+
+
 #### Frontend
 It requires [Node.js](https://nodejs.org/).
 
