@@ -4,6 +4,7 @@ import NewRoundDialog from "../components/NewRoundDialog.vue";
 import FruitRounds from "../components/FruitRounds.vue";
 import FruitDetails from "../components/FruitDetails.vue";
 import image from "../assets/logo.png";
+import Footer from "../components/Footer.vue"
 
 export default {
   data() {
@@ -26,7 +27,8 @@ export default {
     NewOrderDialog,
     NewRoundDialog,
     FruitRounds,
-    FruitDetails
+    FruitDetails,
+    Footer
   },
   mounted() {
     this.axios
@@ -157,6 +159,7 @@ export default {
 
     <NewOrderDialog v-if="fruits" :dialog="newOrder" :fruits="fruits" v-on:closeNewOrder="reload" />
     <NewRoundDialog v-if="fruits" :dialog="newRound" :fruits="fruits" v-on:closeNewRound="reload" />
+    <Footer />
   </main>
 </template>
 
