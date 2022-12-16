@@ -22,7 +22,7 @@ we would like to track from which collection round we got the fruits.
 
 ## Installation
 
-Install the dependencies and devDependencies and start the server.
+We have two seperate directories, one for the backend and another for the frontend.
 
 #### Backend
 in the `backend` directory, and after activating the venv run:
