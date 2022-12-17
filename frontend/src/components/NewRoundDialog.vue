@@ -9,7 +9,7 @@ export default {
         v =>
           (v && v <= 50 && v >= 0) ||
           null ||
-          "Fruit must be a number and between 0 and 50 in the round"
+          "Fruit must be a number and between 1 and 50 in the round"
       ]
     };
   },

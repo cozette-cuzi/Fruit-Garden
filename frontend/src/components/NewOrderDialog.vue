@@ -8,7 +8,7 @@ export default {
         v =>
           (v && v <= 100 && v > 0) ||
           null ||
-          "Fruit must be a number and less than 100 in the order"
+          "Fruit must be a number between 1 and 100 in the order"
       ]
     };
   },
