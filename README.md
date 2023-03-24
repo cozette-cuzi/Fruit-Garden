@@ -1,5 +1,5 @@
 # Fruit Garden
-Webapplication with Django backend and VueJs frontend.
+Webapplication with Django backend and Vue.js frontend.
 
 ## Description
 
